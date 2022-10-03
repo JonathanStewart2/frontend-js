@@ -1,0 +1,37 @@
+FUNCTIONS --------
+
+function add(a,b) {return a+b};
+
+subtract = function(a,b){
+    return a-b;
+}
+
+const divide = (a,b) => a/b;
+
+arr = [1,2,4,6,88,77]
+arr.forEach(num => console.log(num));
+
+EVENT HANDLING --------
+onclick = () in HTML
+addEventListener("click", function);
+
+DOM MANIPULATION --------
+document.getElementById(id);
+document.createElement("div");
+element.appendChild(child);
+
+input doesnt use innerText - uses values: input.value
+
+
+
+ARRAY FUNCTIONS ---
+const array = [2,4,6,8,10,12]
+for (let num in nums) {
+
+}
+
+FILTERS
+const even = nums.filter(array => num % 2 ===0);
+
+MAP 
+converts each value to something else
