@@ -29,7 +29,7 @@ console.log(squared);
 const sum = nums.reduce((accumulator, next) => accumulator+next);
 console.log(sum);
 
-// stringing together array functions
+// stringing together
 const strings = ["1", "2", "3", "4", "5"];
 strings.map(s => parseInt(s)).filter(num => 2 !== 0).reduce((acc,next) => Math.max(acc,next));
 console.log(strings);
