@@ -1,14 +1,23 @@
 'use strict;'
 
-document.getElementById("bitcoin"),addEventListener("click", function () {
-    const catURL = "https://api.coindesk.com/v1/bpi/currentprice.json";
-    axios.get(catURL)
+// removeAllChildNodes: clears current info on HTML page
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+document.getElementById("bitcoin").addEventListener("click", function () {
+    const btcURL = "https://api.coindesk.com/v1/bpi/currentprice.json";
+    axios.get(btcURL)
         .then(response => appendData(response.data.bpi))
         .catch(err => console.error(err));
     
     const appendData = (data) => {
-        console.log(data.EUR);
+        //console.log(data.EUR);
+
         let BTCprice = document.getElementById("infoDiv");
+        removeAllChildNodes(BTCprice);
 
         let BTCpriceTitle = document.createElement("h1");
         BTCpriceTitle.innerText = "Bitcoin Price";
@@ -50,8 +59,14 @@ document.getElementById("crypto").addEventListener("click", function () {
         .catch(err => console.error(err));
 
         const appendData = (data) => {
-            console.log(data);
+
             let cryptoList = document.getElementById("infoDiv");
+            removeAllChildNodes(cryptoList);
+
+            let title = document.createElement("h3");
+            title.innerText = "Other Cryptocurrency Prices vs Bitcoin";
+            cryptoList.appendChild(title);
+
             for (let i = 0; i < 10; i++){
                 let subCrypto = document.createElement("p");
         
@@ -72,3 +87,62 @@ document.getElementById("crypto").addEventListener("click", function () {
             }
         }
 });
+
+
+document.getElementById("nft").addEventListener("click", function () {
+    const openseaURL = "https://api.opensea.io/api/v1/assets?format=json"
+
+    axios.get(openseaURL)
+        .then(response => appendData(response.data))
+        .catch(err => console.error(err));
+    
+    const appendData = (data) => {
+        let divArea = document.getElementById("infoDiv");
+        removeAllChildNodes(divArea);
+    
+        let table = document.createElement("table");
+        let tableTopRow = document.createElement("tr");
+        let tableTopRowHeading1 = document.createElement("th");
+        let tableTopRowHeading2 = document.createElement("th");
+        tableTopRowHeading1.innerText = "Collection Name";
+        tableTopRowHeading2.innerText = "Thumbnail";
+        tableTopRow.appendChild(tableTopRowHeading1);
+        tableTopRow.appendChild(tableTopRowHeading2);
+        table.appendChild(tableTopRow);
+        
+    
+        const appendTable = (assetData) => {
+
+            let newRow = document.createElement("tr");
+    
+            let newName = document.createElement("td");
+            let getName = document.createElement("p");
+            getName.innerText = assetData.collection.name;
+            newName.appendChild(getName);
+            newRow.appendChild(newName);
+    
+            let newThumbnail = document.createElement("td");
+            let thumbnailURL = document.createElement("img");
+
+            if (assetData.image_thumbnail_url){
+                thumbnailURL.src = assetData.image_thumbnail_url;
+            } else {
+                thumbnailURL.src = assetData.collection.image_url;
+            }
+
+            thumbnailURL.src = assetData.image_thumbnail_url;
+            newThumbnail.appendChild(thumbnailURL);
+            newRow.appendChild(newThumbnail);
+            table.appendChild(newRow)
+        }
+    
+        for (let i=0; i<5; i++){
+            if (data.assets[i]){
+                let assetData = data.assets[i];
+                appendTable(assetData);
+            }  
+        }
+        
+        divArea.appendChild(table);
+    }
+})
