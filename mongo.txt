@@ -36,3 +36,342 @@ db.trainers.find({}, { name: true, _id:false });                  _id:false excl
 db.trainers.delete({ age: { $lte : 25 } });                 lte - less than or equals to
 
 db.trainers.update({ name: "jordan" }, { "$set": {"name": "Jordan Harrison} });
+
+
+//
+use mongo_practice
+db.dropDatabase()
+use mongo_practice
+
+db.createCollection('collectionpractice')
+db.collectionpractice.renameCollection('collection_practice')
+db.createCollection('collectionpractice')
+db.CollectionPractice.drop()
+
+db.people.insertOne({
+   "firstName": "Jonathan",
+   "surname": "Stewart",
+   "age": 37,
+   "height": 183
+   "hobbies": ["guitar", "music", "gaming", "pixel art"]
+})
+
+db.people.insertOne({
+    "firstName": "Jordan",
+    "surname": "Harrison",
+    "age": 25,
+    "height": 182,
+    "hobbies":  [
+        "Gaming",
+        "Reading",
+        "Writing course-ware"
+    ]   
+})
+
+
+db.people.insertMany(
+[
+    {
+        "firstName": "Jordan",
+        "surname": "Harrison",
+        "age": 25,
+        "height": 182,
+        "hobbies":  [
+            "Gaming",
+            "Reading",
+            "Writing course-ware"
+        ]   
+    },
+    {
+        "firstName": "Bill",
+        "surname": "Smith",
+        "age": 28,
+        "height": 167,
+        "hobbies":  [
+            "Philately",
+            "Knitting"
+        ]   
+    },
+    {
+        "firstName": "Ben",
+        "surname": "Smith",
+        "age": 32,
+        "height": 157,
+        "hobbies":  [
+            "Poker",
+            "Blackjack"
+        ]   
+    },
+    {
+        "firstName": "Sally",
+        "surname": "Brown",
+        "age": 34,
+        "height": 189,
+        "hobbies":  [
+            "Football",
+            "Air Guitar",
+            "Climbing"
+        ]   
+    },
+    {
+        "firstName": "Emily",
+        "surname": "Poole",
+        "age": 42,
+        "height": 174,
+        "hobbies":  [
+            "Go-Karting",
+            "Ultimate Frisbee"
+        ]   
+    }
+])
+
+
+
+//Ben starts playing roulette.
+db.people.updateOne(
+    {
+    "firstName": "Ben",
+    "surname": "Smith"
+    },
+    {
+        "$push" : {
+            "hobbies": "Roulette"
+            }
+    }
+)
+
+
+
+//Sally stops playing air guitar.
+
+db.people.updateOne(
+    {
+    "firstName": "Sally",
+    },
+    {
+        "$pull" : {
+            "hobbies": "Air Guitar"
+            }
+    }
+)
+
+
+
+//Find everyone over 50.
+
+db.people.find(
+    {
+        "age": {"$gt": 50 }
+        }
+)
+
+
+
+
+//Find everyone under 30 *but only show their first and last name*.
+
+db.people.find(
+    {
+        "age": {"$lte": 30}
+    },
+    {
+        "_id": false,
+        "firstName": true,
+        "surname": true
+        }
+)
+
+
+
+//Everyone over 30 now wears glasses.
+
+db.people.updateMany(
+    {
+        "age": {"$gt": 30}
+    },
+    {
+        "$set" : {
+            "glasses": "true"
+            }
+    }
+)
+
+
+//Delete everyone not wearing glasses.
+
+db.people.deleteMany(
+    {
+        "glasses": { "$ne": "true" }
+    }
+)
+
+Ben decides to buy a dog, update his document in the collection to have an *embedded* document 
+representing this dog (name this field 'pet'). Make sure to give the embedded doc sufficient 
+information (e.g. name, age, species)
+{
+    "firstName": "Jordan",
+    "surname": "Harrison",
+    "age": 25,
+    "height": 182,
+    "hobbies":  [
+        "Gaming",
+        "Reading",
+        "Writing course-ware"
+    ],
+    "job": {
+        "title": "Learning specialist",
+        "salary": 1000000000,
+        "startDate": new Date("2018-09-24"),
+        "manager": "Christopher Perrins"
+    }
+}
+
+
+db.people.updateOne(
+    {
+        "firstname": "Ben"
+    },
+    {
+        "$set" : {
+            "dog": {
+                 "name": "Floki",
+                 "age": 5,
+                 "species": "Cocker Spaniel"
+            }
+            }
+    }
+)
+
+
+
+// TOTAL SCRIPT ------------------------------------------
+
+use document_practice;
+
+db.people.insertOne({
+    "firstName": "Jonathan",
+    "surname": "Stewart",
+    "age": 37,
+    "height": 183,
+    "hobbies":  [
+        "Gaming",
+        "Reading",
+        "Guitar"
+    ]   
+})
+
+db.people.insertMany(
+[
+    {
+        "firstName": "Jordan",
+        "surname": "Harrison",
+        "age": 25,
+        "height": 182,
+        "hobbies":  [
+            "Gaming",
+            "Reading",
+            "Writing course-ware"
+        ]   
+    },
+    {
+        "firstName": "Bill",
+        "surname": "Smith",
+        "age": 28,
+        "height": 167,
+        "hobbies":  [
+            "Philately",
+            "Knitting"
+        ]   
+    },
+    {
+        "firstName": "Ben",
+        "surname": "Smith",
+        "age": 32,
+        "height": 157,
+        "hobbies":  [
+            "Poker",
+            "Blackjack"
+        ]   
+    },
+    {
+        "firstName": "Sally",
+        "surname": "Brown",
+        "age": 34,
+        "height": 189,
+        "hobbies":  [
+            "Football",
+            "Air Guitar",
+            "Climbing"
+        ]   
+    },
+    {
+        "firstName": "Emily",
+        "surname": "Poole",
+        "age": 42,
+        "height": 174,
+        "hobbies":  [
+            "Go-Karting",
+            "Ultimate Frisbee"
+        ]   
+    }
+])
+
+db.people.updateOne(
+    {
+        "firstName": "Ben",
+        "surname": "Smith"
+    },
+    {
+        "$push": {
+            "hobbies": "Roulette"
+        }
+    }
+)
+
+db.people.updateOne(
+    {
+        firstName: "Sally",
+        surname: "Brown"
+    },
+    { 
+        $pull: { 
+            hobbies: {
+                $in: ["Air Guitar"]
+                    }
+            }
+    }
+)
+
+db.people.find(
+    {
+        "age": {
+            "$gte": 30
+            }
+    }
+)
+
+db.people.find(
+    {
+        "age": {"$lte": 30}
+    },
+    {
+        "_id": false,
+        "firstName": true,
+        "surname": true
+    }
+)
+
+db.people.updateMany(
+    {
+        "age": {"$gte": 30}
+    },
+    {
+        "$set": {"glasses": true}
+    }
+)
+
+db.people.deleteMany(
+    {
+        "glasses": { "$ne": "true" }
+    }
+)
