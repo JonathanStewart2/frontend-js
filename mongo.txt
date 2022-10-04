@@ -1,0 +1,38 @@
+MONDO DB
+
+noSQL - Not only noSQL
+Javascript database: JSON functions, BSON (binary JSON)
+
+SQL v Mongo
+Database -> Database
+Table -> Collections
+Records -> Documents
+
+                CREATE  READ    UPDATE  DELETE
+DB              CREATE  SHOW    X       DROP
+COLLECTION      CREATE  SHOW            DROP
+Documents       INSERT          UPDATE  DELETE  
+
+USE database_name     -> if database doesnt exist, one will be created
+
+db.createCollection("trainers")
+
+db.trainers.insertMany([
+    {
+        name: "jordan",
+        age: 28
+    },
+    {
+        name: "ash",
+        age: 25
+    }
+]);
+
+db.trainers.find({ name: "jordan" })
+db.trainers.find({ age: {$gt: 25 } })              $gt - grather than, $lt - lower than
+
+db.trainers.find({}, { name: true, _id:false });                  _id:false excludes id
+
+db.trainers.delete({ age: { $lte : 25 } });                 lte - less than or equals to
+
+db.trainers.update({ name: "jordan" }, { "$set": {"name": "Jordan Harrison} });
