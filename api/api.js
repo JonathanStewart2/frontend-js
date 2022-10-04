@@ -1,5 +1,47 @@
 'use strict;'
 
+document.getElementById("bitcoin"),addEventListener("click", function () {
+    const catURL = "https://api.coindesk.com/v1/bpi/currentprice.json";
+    axios.get(catURL)
+        .then(response => appendData(response.data.bpi))
+        .catch(err => console.error(err));
+    
+    const appendData = (data) => {
+        console.log(data.EUR);
+        let BTCprice = document.getElementById("infoDiv");
+
+        let BTCpriceTitle = document.createElement("h1");
+        BTCpriceTitle.innerText = "Bitcoin Price";
+        BTCprice.appendChild(BTCpriceTitle);
+
+        const createElement = (parent, name, data) => {
+            let paraHead = document.createElement("p");
+            let paraHeadTitle = document.createElement("h3");
+            paraHeadTitle.innerText = `${name}`;
+            paraHead.appendChild(paraHeadTitle);
+
+            let itemPrice = document.createElement("h6");
+            itemPrice.innerText = `£${data}`;
+            paraHead.appendChild(itemPrice);
+            parent.appendChild(paraHead);
+        }
+
+        BTCGBP = document.createElement("p");
+        createElement(BTCGBP, "GBP", data.GBP.rate);
+        BTCprice.appendChild(BTCGBP);
+
+        BTCUSD = document.createElement("p");
+        createElement(BTCUSD, "USD", data.USD.rate);
+        BTCprice.appendChild(BTCUSD);
+
+        BTCEUR = document.createElement("p");
+        createElement(BTCEUR, "EUR", data.EUR.rate);
+        BTCprice.appendChild(BTCEUR);
+    }
+})
+
+
+
 document.getElementById("crypto").addEventListener("click", function () {
     let url = "https://api2.binance.com/api/v3/ticker/24hr"
 
@@ -30,20 +72,3 @@ document.getElementById("crypto").addEventListener("click", function () {
             }
         }
 });
-
-document.getElementById("monster").addEventListener("click", function () {
-    let url = "https://app.pixelencounter.com/api/basic/monsters/random";
-    axios.get(url)
-        .then(response => drawMonster(response.data))
-        .catch(err => console.error(err));
-    
-        const drawMonster = (data) => {
-            console.log(data);
-            //let monsterDisplay = document.createElement("img");
-        }
-
-        }
-    
-})
-
-const urlWSB = "https://www.reddit.com/r/Wallstreetbets/top.json?limit=10&t=year"
