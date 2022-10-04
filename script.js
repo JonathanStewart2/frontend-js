@@ -45,3 +45,21 @@ document.getElementById("fetch").addEventListener("click", function() {
 
 
 
+// ASYNCRONUS
+// POST in axios
+
+// axios.post(url, {
+//     name: "Morpheus",
+//     role: "Leader"
+// }).then()
+// .catch()
+
+function createUser() {
+    const name = document.getElementById("userName").value;
+    const url = "https://reqres.in/api/users";
+    axios.post(url, {
+        name
+    }).then(res => console.log(res))
+    .catch(err => console.error(err));
+
+}

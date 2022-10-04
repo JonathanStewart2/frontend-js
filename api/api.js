@@ -136,7 +136,7 @@ document.getElementById("nft").addEventListener("click", function () {
             table.appendChild(newRow)
         }
     
-        for (let i=0; i<5; i++){
+        for (let i=0; i<10; i++){
             if (data.assets[i]){
                 let assetData = data.assets[i];
                 appendTable(assetData);
@@ -146,3 +146,32 @@ document.getElementById("nft").addEventListener("click", function () {
         divArea.appendChild(table);
     }
 })
+
+
+
+const breweryURL = "https://api.openbrewerydb.org/breweries";
+
+axios.get(breweryURL)
+    .then(response => appendData(response.data))
+    .catch(err => console.error(err));
+
+const appendData = (data) => {
+    let breweryList = document.getElementById("infoDiv");
+    removeAllChildNodes(breweryList);
+    console.log(data);
+
+    let newList = document.createElement("ul");
+
+    for (let item in data){
+        console.log(item);
+        newListItem = document.createElement("li")
+        newListItem.innerText = item.name;
+        newList.appendChild(newListItem);
+    }
+    breweryList.appendChild(newList);
+
+
+
+  
+    
+}
